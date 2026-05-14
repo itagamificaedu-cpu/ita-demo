@@ -784,10 +784,23 @@ html, body {
       </div>
     </div>
     <div class="stats">
-      <div class="stat"><div class="stat-num">🤖</div><div class="stat-lbl">IA integrada em todos os módulos</div></div>
-      <div class="stat"><div class="stat-num">📱</div><div class="stat-lbl">Funciona em celular, tablet e PC</div></div>
-      <div class="stat"><div class="stat-num">✅</div><div class="stat-lbl">100% alinhado à BNCC</div></div>
-      <div class="stat"><div class="stat-num">🔒</div><div class="stat-lbl">Dados seguros no Brasil</div></div>
+      <div class="stat">
+        <div class="stat-num" style="font-size:clamp(14px,3vw,18px);-webkit-text-fill-color:white;background:none;opacity:.5;text-decoration:line-through">R$1.500+</div>
+        <div style="font-size:clamp(20px,4vw,32px);font-weight:800;color:#10b981">R$299</div>
+        <div class="stat-lbl">O que concorrentes cobram vs. ITA — Plano Escola</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">R$1</div>
+        <div class="stat-lbl">por aluno/mês no Plano Prefeitura — modelo transparente para licitação</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">10–15h</div>
+        <div class="stat-lbl">economizadas por professor por mês com a IA da plataforma</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">7</div>
+        <div class="stat-lbl">módulos integrados — IA, gamificação, corretor, dashboard e mais</div>
+      </div>
     </div>
   </div>
 </div>
@@ -804,39 +817,63 @@ html, body {
         <div class="ss">Menos que uma caixinha de suco por aluno/mês</div>
       </div>
     </div>
-    <div class="planos" style="grid-template-columns:1fr 1fr;max-width:700px;margin:0 auto;width:100%">
+    <div class="planos">
+      <!-- PLANO PROFESSOR -->
       <div class="plano" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.3)">
-        <div class="plano-nome">🏫 Plano Básico</div>
-        <div class="plano-desc">Ideal para professores individuais</div>
-        <div class="plano-preco">R$39<span>/mês</span></div>
-        <div class="plano-alunos">Até 150 alunos</div>
+        <div class="plano-nome">👨‍🏫 Professor</div>
+        <div class="plano-desc">Para professores individuais</div>
+        <div class="plano-preco">R$59<span>/mês</span></div>
+        <div class="plano-alunos" style="color:#60a5fa;font-weight:600">ou R$590/ano — 2 meses grátis</div>
         <ul class="plano-its">
-          <li>Controle de presença</li>
-          <li>Avaliações e provas</li>
-          <li>Relatórios de desempenho</li>
-          <li>IA Educacional</li>
-          <li>Acesso via celular e PC</li>
+          <li>Corretor Automático com IA</li>
+          <li>Gerador de Provas e Aulas</li>
+          <li>ItagGame na sua turma</li>
+          <li>Repositório Digital</li>
+          <li>Dashboard da turma</li>
+          <li>Acesso celular, tablet e PC</li>
         </ul>
+        <div style="font-size:11px;opacity:.5;margin-top:-4px">Equivale a 2 refeições/mês — economiza 10–15h de trabalho</div>
         <button class="plano-btn" style="background:rgba(59,130,246,.2);color:#60a5fa;border:1px solid rgba(59,130,246,.4)">Assinar Agora</button>
       </div>
+      <!-- PLANO ESCOLA -->
       <div class="plano dest" style="background:rgba(16,185,129,.12);border:2px solid rgba(16,185,129,.5)">
         <div class="badge-pop">MAIS POPULAR</div>
-        <div class="plano-nome">🏛️ Plano Escola</div>
-        <div class="plano-desc">Para escolas e instituições</div>
-        <div class="plano-preco">R$79<span>/mês</span></div>
-        <div class="plano-alunos">Alunos ilimitados</div>
+        <div class="plano-nome">🏫 Escola</div>
+        <div class="plano-desc">Para escolas até ~300 alunos</div>
+        <div class="plano-preco">R$299<span>/mês</span></div>
+        <div class="plano-alunos" style="color:#34d399;font-weight:600">≈ R$1,00 por aluno/mês</div>
         <ul class="plano-its">
           <li>Múltiplos professores</li>
-          <li>ItagGame — gamificação</li>
+          <li>ItagGame + Ranking da escola</li>
           <li>Corretor de Provas com IA</li>
+          <li>Gerador de Provas e Aulas</li>
           <li>Repositório Digital</li>
-          <li>IA Educacional completa</li>
+          <li>Dashboard pedagógico completo</li>
           <li>Suporte prioritário</li>
         </ul>
+        <div style="font-size:11px;opacity:.5;margin-top:-4px">Concorrentes cobram R$1.500+/mês pelo mesmo — a ITA entrega por R$299</div>
         <button class="plano-btn" style="background:linear-gradient(90deg,#10b981,#059669);color:#fff">Assinar Agora ✨</button>
       </div>
+      <!-- PLANO PREFEITURA -->
+      <div class="plano" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3)">
+        <div class="plano-nome">🏛️ Prefeitura</div>
+        <div class="plano-desc">Redes e secretarias municipais</div>
+        <div class="plano-preco" style="font-size:clamp(18px,4vw,28px)">R$1,00<span>/aluno/mês</span></div>
+        <div class="plano-alunos" style="color:#fbbf24;font-weight:600">Mínimo R$2.500/mês</div>
+        <ul class="plano-its">
+          <li>Toda a rede escolar</li>
+          <li>Multi-escola e multi-usuário</li>
+          <li>Dashboard consolidado por rede</li>
+          <li>Modelo ideal para licitação</li>
+          <li>Treinamento presencial incluso</li>
+          <li>Gerente de conta dedicado</li>
+          <li>Logo da prefeitura na plataforma</li>
+        </ul>
+        <div style="font-size:11px;opacity:.5;margin-top:-4px">ERPs sem IA cobram R$3–5/aluno/mês — a ITA cobra R$1,00 com IA completa</div>
+        <button class="plano-btn" style="background:rgba(245,158,11,.2);color:#fbbf24;border:1px solid rgba(245,158,11,.4)">Solicitar Proposta</button>
+      </div>
     </div>
-    <div class="infobanner" style="max-width:700px;margin:0 auto;width:100%">💳 Pagamento 100% seguro via Mercado Pago · Acesso liberado automaticamente após confirmação</div>
+    <div class="infobanner">💳 Pagamento seguro via Mercado Pago · Acesso liberado automaticamente após confirmação</div>
   </div>
 </div>
 
