@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ITA Tecnologia Educacional — Demonstração Gratuita</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --azul: #1a56db;
+    --azul-escuro: #1e3a8a;
+    --azul-claro: #3b82f6;
+    --verde: #10b981;
+    --amarelo: #f59e0b;
+    --roxo: #8b5cf6;
+    --rosa: #ec4899;
+    --laranja: #f97316;
+    --cinza: #f8fafc;
+    --texto: #1e293b;
+  }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #0f172a;
+    color: white;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  /* ===== SLIDES ===== */
+  .slide {
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0; left: 0;
+    animation: fadeIn 0.5s ease;
+  }
+
+  .slide.active { display: flex; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== NAV ===== */
+  .nav {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50px;
+    padding: 12px 24px;
+    z-index: 100;
+  }
+
+  .nav button {
+    background: var(--azul);
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav button:hover { background: var(--azul-claro); transform: scale(1.05); }
+  .nav button:disabled { background: rgba(255,255,255,0.1); cursor: default; transform: none; }
+
+  .nav .counter {
+    font-size: 13px;
+    opacity: 0.7;
+    min-width: 80px;
+    text-align: center;
+  }
+
+  .dots {
+    display: flex;
+    gap: 8px;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .dot.active { background: var(--azul-claro); width: 24px; border-radius: 4px; }
+
+  /* ===== SLIDE 1 — CAPA ===== */
+  #slide-1 {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #1a56db 100%);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #slide-1::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(59,130,246,0.2) 0%, transparent 70%);
+    top: -100px; right: -100px;
+  }
+
+  #slide-1::after {
+    content: '';
+    position: absolute;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(139,92,246,0.2) 0%, transparent 70%);
+    bottom: -50px; left: -50px;
+  }
+
+  .logo-badge {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #93c5fd;
+    margin-bottom: 10px;
+  }
+
+  .capa-titulo {
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 800;
+    line-height: 1.1;
+    max-width: 800px;
+  }
+
+  .capa-titulo span { color: #60a5fa; }
+
+  .capa-subtitulo {
+    font-size: clamp(16px, 2vw, 22px);
+    opacity: 0.8;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+
+  .capa-badges {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .badge {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 30px;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .capa-cta {
+    background: linear-gradient(90deg, var(--verde), #059669);
+    border: none;
+    color: white;
+    padding: 16px 40px;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+    box-shadow: 0 0 40px rgba(16,185,129,0.4);
+    transition: all 0.3s;
+  }
+  .capa-cta:hover { transform: scale(1.05); box-shadow: 0 0 60px rgba(16,185,129,0.6); }
+
+  /* ===== SLIDE GENÉRICO ===== */
+  .slide-layout {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 60px 80px 100px;
+    gap: 40px;
+    justify-content: center;
+  }
+
+  .slide-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .slide-icon {
+    font-size: 40px;
+    width: 72px; height: 72px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .slide-titulo {
+    font-size: clamp(28px, 3.5vw, 48px);
+    font-weight: 800;
+    line-height: 1.1;
+  }
+
+  .slide-subtitulo {
+    font-size: 16px;
+    opacity: 0.6;
+    font-weight: 400;
+    margin-top: 4px;
+  }
+
+  /* ===== CARDS GRID ===== */
+  .cards-grid {
+    display: grid;
+    gap: 16px;
+  }
+
+  .cards-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .cards-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .cards-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+  .card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.3s;
+  }
+  .card:hover {
+    background: rgba(255,255,255,0.08);
+    transform: translateY(-2px);
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  .card-icon { font-size: 32px; margin-bottom: 12px; }
+  .card-titulo { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+  .card-desc { font-size: 13px; opacity: 0.7; line-height: 1.5; }
+
+  /* ===== MODULOS ===== */
+  .modulos-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+
+  .modulo-card {
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.3s;
+  }
+  .modulo-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+
+  .modulo-icone { font-size: 28px; }
+  .modulo-nome { font-size: 14px; font-weight: 700; }
+  .modulo-desc { font-size: 12px; opacity: 0.7; line-height: 1.4; }
+
+  /* ===== PLANOS ===== */
+  .planos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .plano-card {
+    border-radius: 20px;
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .plano-card.destaque::before {
+    content: '⭐ MAIS VENDIDO';
+    position: absolute;
+    top: 16px; right: -20px;
+    background: var(--amarelo);
+    color: #1e293b;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 4px 40px;
+    transform: rotate(45deg);
+    transform-origin: center;
+  }
+
+  .plano-nome { font-size: 22px; font-weight: 800; }
+  .plano-desc { font-size: 13px; opacity: 0.7; }
+  .plano-preco { font-size: 40px; font-weight: 800; line-height: 1; }
+  .plano-preco span { font-size: 16px; font-weight: 400; opacity: 0.7; }
+  .plano-alunos { font-size: 13px; opacity: 0.6; margin-top: -8px; }
+
+  .plano-items { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .plano-items li { font-size: 13px; display: flex; align-items: center; gap: 8px; }
+  .plano-items li::before { content: '✓'; color: var(--verde); font-weight: 700; }
+
+  .plano-btn {
+    border: none;
+    border-radius: 30px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: auto;
+    transition: all 0.2s;
+  }
+  .plano-btn:hover { transform: scale(1.03); }
+
+  /* ===== STATS ===== */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .stat-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-size: 48px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #60a5fa, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-label { font-size: 14px; opacity: 0.7; }
+
+  /* ===== DEPOIMENTOS ===== */
+  .depo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .depo-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .depo-texto { font-size: 14px; line-height: 1.6; opacity: 0.9; font-style: italic; }
+  .depo-autor { display: flex; align-items: center; gap: 12px; margin-top: auto; }
+  .depo-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .depo-nome { font-size: 14px; font-weight: 700; }
+  .depo-cargo { font-size: 12px; opacity: 0.6; }
+  .estrelas { color: var(--amarelo); font-size: 14px; letter-spacing: 2px; }
+
+  /* ===== CTA FINAL ===== */
+  #slide-final {
+    background: linear-gradient(135deg, #064e3b, #065f46, #1a56db);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .final-titulo {
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 800;
+    max-width: 700px;
+    line-height: 1.2;
+  }
+
+  .final-subtitulo { font-size: 18px; opacity: 0.8; max-width: 500px; line-height: 1.6; }
+
+  .final-destaque {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    padding: 20px 40px;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .final-contato {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .contato-item {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 12px 20px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ===== SLIDE PROBLEMA ===== */
+  .problema-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .lista-problema, .lista-solucao {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .item-lista {
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    line-height: 1.4;
+  }
+
+  .item-lista .icone { font-size: 22px; flex-shrink: 0; }
+
+  /* ===== SLIDE MODULO DETALHE ===== */
+  .modulo-detalhe {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .modulo-features { display: flex; flex-direction: column; gap: 14px; }
+
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    padding: 14px;
+  }
+
+  .feature-icone { font-size: 24px; flex-shrink: 0; }
+  .feature-texto strong { font-size: 14px; display: block; margin-bottom: 2px; }
+  .feature-texto span { font-size: 12px; opacity: 0.7; line-height: 1.4; }
+
+  .modulo-demo {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .demo-mockup {
+    font-size: 80px;
+    filter: drop-shadow(0 0 20px rgba(59,130,246,0.5));
+  }
+
+  /* ===== TIMELINE ===== */
+  .timeline {
+    display: flex;
+    gap: 0;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .timeline-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+  }
+
+  .timeline-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 28px;
+    right: -50%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1));
+  }
+
+  .timeline-num {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--azul);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 800;
+    z-index: 1;
+    box-shadow: 0 0 20px rgba(26,86,219,0.5);
+  }
+
+  .timeline-titulo { font-size: 14px; font-weight: 700; text-align: center; }
+  .timeline-desc { font-size: 12px; opacity: 0.6; text-align: center; max-width: 120px; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1024px) {
+    .slide-layout { padding: 40px 40px 100px; }
+    .modulos-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .planos-grid { gap: 12px; }
+    .plano-card { padding: 20px 16px; }
+  }
+
+  /* Keyboard hint */
+  .key-hint {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 11px;
+    opacity: 0.4;
+    text-align: right;
+    line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- SLIDE 1 — CAPA -->
+<!-- ============================================================ -->
+<div class="slide active" id="slide-1">
+  <div class="logo-badge">🎓 ITA Tecnologia Educacional</div>
+  <div class="capa-titulo">A Plataforma que vai<br><span>Transformar</span> sua Escola</div>
+  <div class="capa-subtitulo">7 módulos com Inteligência Artificial para engajar alunos, reduzir o trabalho do professor e modernizar o ensino público e privado.</div>
+  <div class="capa-badges">
+    <div class="badge">🤖 Inteligência Artificial</div>
+    <div class="badge">🎮 Gamificação</div>
+    <div class="badge">📊 Dados em Tempo Real</div>
+    <div class="badge">✅ Alinhado à BNCC</div>
+    <div class="badge">🆓 15 dias grátis</div>
+  </div>
+  <button class="capa-cta" onclick="goTo(1)">▶ Ver Demonstração</button>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 2 — O PROBLEMA -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-2">
+  <div class="slide-layout">
+    <div class="slide-header">
+      <div class="slide-icon" style="background: linear-gradient(135deg,#ef4444,#dc2626);">😓</div>
+      <div>
+        <div class="slide-titulo">A Realidade das Escolas Hoje</div>
+        <div class="slide-subtitulo">Desafios que toda escola enfrenta — e que a ITA resolve</div>
+      </div>
+    </div>
+    <div class="problema-grid">
+      <div class="lista-problema">
+        <div style="font-size:13px;opacity:0.6;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">❌ Sem plataforma</div>
+        <div class="item-lista" style="border-left: 3px solid #ef4444;">
+          <span class="icone">📝</span>
+          <span>Professor corrige pilhas de provas manualmente — horas de trabalho desperdiçadas</span>
+        </div>
+        <div class="item-lista" style="border-left: 3px solid #ef4444;">
+          <span class="icone">😴</span>
+          <span>Alunos desengajados, celular na mão, sem motivação para aprender</span>
+        </div>
+        <div class="item-lista" style="border-left: 3px solid #ef4444;">
+          <span class="icone">📊</span>
+          <span>Gestão pedagógica no escuro — sem dados de desempenho em tempo real</span>
+        </div>
+        <div class="item-lista" style="border-left: 3px solid #ef4444;">
+          <span class="icone">⏰</span>
+          <span>Horas planejando aulas do zero toda semana sem apoio de IA</span>
+        </div>
+      </div>
+      <div class="lista-solucao">
+        <div style="font-size:13px;opacity:0.6;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">✅ Com a plataforma ITA</div>
+        <div class="item-lista" style="border-left: 3px solid #10b981;">
+          <span class="icone">⚡</span>
+          <span>100 provas corrigidas pela IA em menos de 1 minuto, com relatório completo</span>
+        </div>
+        <div class="item-lista" style="border-left: 3px solid #10b981;">
+          <span class="icone">🎮</span>
+          <span>Alunos competindo por pontos e subindo no ranking — engajamento de 70%</span>
+        </div>
+        <div class="item-lista" style="border-left: 3px solid #10b981;">
+          <span class="icone">📈</span>
+          <span>Dashboard em tempo real — gestor e professor veem tudo com clareza</span>
+        </div>
+        <div class="item-lista" style="border-left: 3px solid #10b981;">
+          <span class="icone">🤖</span>
+          <span>Planos de aula gerados pela IA em segundos, alinhados à BNCC</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 3 — MÓDULOS VISÃO GERAL -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-3">
+  <div class="slide-layout">
+    <div class="slide-header">
+      <div class="slide-icon" style="background: linear-gradient(135deg,#1a56db,#3b82f6);">🚀</div>
+      <div>
+        <div class="slide-titulo">7 Módulos. Uma Plataforma Completa.</div>
+        <div class="slide-subtitulo">Cada módulo resolve um problema real da escola — e funcionam integrados</div>
+      </div>
+    </div>
+    <div class="modulos-grid">
+      <div class="modulo-card" style="background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(139,92,246,0.05));">
+        <div class="modulo-icone">🎮</div>
+        <div class="modulo-nome">ItagGame</div>
+        <div class="modulo-desc">Gamificação com pontos, ranking e missões para engajar alunos</div>
+      </div>
+      <div class="modulo-card" style="background: linear-gradient(135deg, rgba(16,185,129,0.2), rgba(16,185,129,0.05));">
+        <div class="modulo-icone">✅</div>
+        <div class="modulo-nome">Corretor Automático</div>
+        <div class="modulo-desc">IA corrige provas objetivas em segundos com relatório por aluno</div>
+      </div>
+      <div class="modulo-card" style="background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(245,158,11,0.05));">
+        <div class="modulo-icone">📝</div>
+        <div class="modulo-nome">Gerador de Provas</div>
+        <div class="modulo-desc">Avaliações completas criadas pela IA com questões personalizadas</div>
+      </div>
+      <div class="modulo-card" style="background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(59,130,246,0.05));">
+        <div class="modulo-icone">🤖</div>
+        <div class="modulo-nome">Gerador de Aulas</div>
+        <div class="modulo-desc">Planos de aula personalizados com IA, alinhados à BNCC</div>
+      </div>
+      <div class="modulo-card" style="background: linear-gradient(135deg, rgba(236,72,153,0.2), rgba(236,72,153,0.05));">
+        <div class="modulo-icone">📚</div>
+        <div class="modulo-nome">Repositório Digital</div>
+        <div class="modulo-desc">Biblioteca colaborativa de materiais e recursos pedagógicos</div>
+      </div>
+      <div class="modulo-card" style="background: linear-gradient(135deg, rgba(249,115,22,0.2), rgba(249,115,22,0.05));">
+        <div class="modulo-icone">📊</div>
+        <div class="modulo-nome">Dashboard Pedagógico</div>
+        <div class="modulo-desc">Desempenho de turmas em tempo real para gestores e professores</div>
+      </div>
+      <div class="modulo-card" style="background: linear-gradient(135deg, rgba(20,184,166,0.2), rgba(20,184,166,0.05));">
+        <div class="modulo-icone">🏆</div>
+        <div class="modulo-nome">Ranking de Alunos</div>
+        <div class="modulo-desc">Motivação e competição saudável com troféus e conquistas</div>
+      </div>
+      <div class="modulo-card" style="background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(99,102,241,0.05)); opacity:0.6;">
+        <div class="modulo-icone">🔜</div>
+        <div class="modulo-nome">Em breve</div>
+        <div class="modulo-desc">Novos módulos em desenvolvimento contínuo para sua escola</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4 — ITAGAME -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-4">
+  <div class="slide-layout">
+    <div class="slide-header">
+      <div class="slide-icon" style="background: linear-gradient(135deg,#7c3aed,#8b5cf6);">🎮</div>
+      <div>
+        <div class="slide-titulo">ItagGame — Gamificação das Aulas</div>
+        <div class="slide-subtitulo">Transforme o aprendizado em um jogo que os alunos QUEREM jogar</div>
+      </div>
+    </div>
+    <div class="modulo-detalhe">
+      <div class="modulo-features">
+        <div class="feature-item">
+          <div class="feature-icone">⭐</div>
+          <div class="feature-texto">
+            <strong>Sistema de Pontos e Níveis</strong>
+            <span>Alunos ganham XP por atividades, provas e participação em sala de aula</span>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icone">🏆</div>
+          <div class="feature-texto">
+            <strong>Ranking em Tempo Real</strong>
+            <span>Placar atualizado ao vivo — gera competição saudável e motivação natural</span>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icone">🎯</div>
+          <div class="feature-texto">
+            <strong>Missões e Conquistas</strong>
+            <span>Badges e troféus desbloqueáveis que os alunos exibem com orgulho</span>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icone">🎛️</div>
+          <div class="feature-texto">
+            <strong>Painel do Professor</strong>
+            <span>Controle total — atribua pontos, crie missões e monitore engajamento</span>
+          </div>
+        </div>
+      </div>
+      <div class="modulo-demo">
+        <div class="demo-mockup">🎮</div>
+        <div style="font-size:18px;font-weight:700;">Aumento de engajamento</div>
+        <div style="font-size:56px;font-weight:800;color:#8b5cf6;">+70%</div>
+        <div style="font-size:13px;opacity:0.6;">Média reportada pelas escolas parceiras</div>
+        <div style="background:rgba(139,92,246,0.2);border:1px solid rgba(139,92,246,0.3);border-radius:12px;padding:14px;margin-top:8px;font-size:13px;line-height:1.5;">
+          "Os alunos pedem para ter aula com o ItagGame. O comportamento em sala mudou completamente." — Professora, CE
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 5 — CORRETOR AUTOMÁTICO -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-5">
+  <div class="slide-layout">
+    <div class="slide-header">
+      <div class="slide-icon" style="background: linear-gradient(135deg,#059669,#10b981);">✅</div>
+      <div>
+        <div class="slide-titulo">Corretor Automático com IA</div>
+        <div class="slide-subtitulo">100 provas corrigidas em menos de 1 minuto — com relatório individual</div>
+      </div>
+    </div>
+    <div class="modulo-detalhe">
+      <div class="modulo-features">
+        <div class="feature-item">
+          <div class="feature-icone">📋</div>
+          <div class="feature-texto">
+            <strong>Gabarito Digital</strong>
+            <span>Professor cadastra o gabarito uma vez — a IA faz o resto</span>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icone">📱</div>
+          <div class="feature-texto">
+            <strong>Resposta por QR Code ou Papel</strong>
+            <span>Aluno responde online ou a IA lê a folha de papel fotografada</span>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icone">📊</div>
+          <div class="feature-texto">
+            <strong>Relatório Inteligente</strong>
+            <span>Identifica quais questões tiveram mais erros e o perfil de cada aluno</span>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icone">📁</div>
+          <div class="feature-texto">
+            <strong>Exporta para o Diário</strong>
+            <span>Notas exportadas em PDF/Excel — integra com o diário de classe</span>
+          </div>
+        </div>
+      </div>
+      <div class="modulo-demo">
+        <div class="demo-mockup">⚡</div>
+        <div style="font-size:16px;font-weight:700;opacity:0.8;">Tempo de correção</div>
+        <div style="display:flex;gap:20px;align-items:center;margin:10px 0;">
+          <div style="text-align:center;">
+            <div style="font-size:32px;font-weight:800;color:#ef4444;">3h</div>
+            <div style="font-size:11px;opacity:0.5;">Manual</div>
+          </div>
+          <div style="font-size:28px;opacity:0.4;">→</div>
+          <div style="text-align:center;">
+            <div style="font-size:32px;font-weight:800;color:#10b981;">&lt;1min</div>
+            <div style="font-size:11px;opacity:0.5;">Com IA</div>
+          </div>
+        </div>
+        <div style="background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);border-radius:12px;padding:14px;font-size:13px;line-height:1.5;text-align:left;width:100%;">
+          ✓ Nota automática por aluno<br>
+          ✓ % de acerto por questão<br>
+          ✓ Sugestão de reforço<br>
+          ✓ Exporta para planilha
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 6 — GERADOR DE PROVAS E AULAS -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-6">
+  <div class="slide-layout">
+    <div class="slide-header">
+      <div class="slide-icon" style="background: linear-gradient(135deg,#d97706,#f59e0b);">🤖</div>
+      <div>
+        <div class="slide-titulo">IA que Trabalha pelo Professor</div>
+        <div class="slide-subtitulo">Gera provas completas e planos de aula em segundos — alinhados à BNCC</div>
+      </div>
+    </div>
+    <div class="cards-grid cols-2" style="gap:20px;">
+      <div style="background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(245,158,11,0.03)); border: 1px solid rgba(245,158,11,0.2); border-radius:20px; padding:28px; display:flex; flex-direction:column; gap:16px;">
+        <div style="font-size:32px;">📝</div>
+        <div style="font-size:22px;font-weight:800;">Gerador de Provas</div>
+        <div style="font-size:14px;opacity:0.7;line-height:1.6;">
+          Digite o tema e o nível da turma — a IA gera uma prova completa em segundos.
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div class="item-lista" style="border-left:3px solid #f59e0b;padding:10px 14px;font-size:13px;">📌 Questões objetivas e dissertativas</div>
+          <div class="item-lista" style="border-left:3px solid #f59e0b;padding:10px 14px;font-size:13px;">📌 Gabarito automático incluso</div>
+          <div class="item-lista" style="border-left:3px solid #f59e0b;padding:10px 14px;font-size:13px;">📌 Alinhada às habilidades BNCC</div>
+          <div class="item-lista" style="border-left:3px solid #f59e0b;padding:10px 14px;font-size:13px;">📌 Exporta em PDF em 1 clique</div>
+        </div>
+      </div>
+      <div style="background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(59,130,246,0.03)); border: 1px solid rgba(59,130,246,0.2); border-radius:20px; padding:28px; display:flex; flex-direction:column; gap:16px;">
+        <div style="font-size:32px;">🤖</div>
+        <div style="font-size:22px;font-weight:800;">Gerador de Aulas</div>
+        <div style="font-size:14px;opacity:0.7;line-height:1.6;">
+          Informe a disciplina, série e objetivo — a IA monta o plano de aula completo.
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div class="item-lista" style="border-left:3px solid #3b82f6;padding:10px 14px;font-size:13px;">📌 Objetivos, metodologia e avaliação</div>
+          <div class="item-lista" style="border-left:3px solid #3b82f6;padding:10px 14px;font-size:13px;">📌 Atividades prontas para aplicar</div>
+          <div class="item-lista" style="border-left:3px solid #3b82f6;padding:10px 14px;font-size:13px;">📌 Sugestões de recursos digitais</div>
+          <div class="item-lista" style="border-left:3px solid #3b82f6;padding:10px 14px;font-size:13px;">📌 Salva no Repositório Digital</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px;font-size:15px;font-weight:600;">
+      ⏱️ O que levava <strong style="color:#ef4444;">2 horas</strong> de planejamento agora leva <strong style="color:#10b981;">30 segundos</strong> com a IA da ITA
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 7 — DASHBOARD -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-7">
+  <div class="slide-layout">
+    <div class="slide-header">
+      <div class="slide-icon" style="background: linear-gradient(135deg,#ea580c,#f97316);">📊</div>
+      <div>
+        <div class="slide-titulo">Dashboard Pedagógico em Tempo Real</div>
+        <div class="slide-subtitulo">Gestão baseada em dados — decisões mais rápidas e certeiras</div>
+      </div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Visibilidade do desempenho das turmas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">⚡ Live</div>
+        <div class="stat-label">Dados atualizados em tempo real</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">📱</div>
+        <div class="stat-label">Acessível de qualquer dispositivo</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">0</div>
+        <div class="stat-label">Planilhas manuais necessárias</div>
+      </div>
+    </div>
+    <div class="cards-grid cols-3">
+      <div class="card">
+        <div class="card-icon">👨‍🏫</div>
+        <div class="card-titulo">Visão do Professor</div>
+        <div class="card-desc">Vê o desempenho de cada aluno, por disciplina e por avaliação — toma ação imediata</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏫</div>
+        <div class="card-titulo">Visão do Gestor</div>
+        <div class="card-desc">Panorama completo da escola — turmas, professores, médias e tendências em um só painel</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏛️</div>
+        <div class="card-titulo">Visão da Secretaria</div>
+        <div class="card-desc">Relatórios consolidados por escola e município — perfeito para prestação de contas</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 8 — RESULTADOS / PROVA SOCIAL -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-8">
+  <div class="slide-layout">
+    <div class="slide-header">
+      <div class="slide-icon" style="background: linear-gradient(135deg,#0284c7,#0ea5e9);">💬</div>
+      <div>
+        <div class="slide-titulo">Quem já usa a Plataforma ITA</div>
+        <div class="slide-subtitulo">Resultados reais de escolas e secretarias do Ceará e do Brasil</div>
+      </div>
+    </div>
+    <div class="depo-grid">
+      <div class="depo-card">
+        <div class="estrelas">★★★★★</div>
+        <div class="depo-texto">"O Corretor Automático salvou horas do meu final de semana. Antes eu levava 3 horas para corrigir 30 provas. Agora faço em 2 minutos e ainda tenho relatório de desempenho."</div>
+        <div class="depo-autor">
+          <div class="depo-avatar" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed);">M</div>
+          <div>
+            <div class="depo-nome">Mayara S.</div>
+            <div class="depo-cargo">Professora de Matemática — Escola Municipal, Itapipoca/CE</div>
+          </div>
+        </div>
+      </div>
+      <div class="depo-card">
+        <div class="estrelas">★★★★★</div>
+        <div class="depo-texto">"O ItagGame transformou minhas aulas de Português. Alunos que não participavam agora chegam cedo pra ver o ranking. O engajamento é visível todo dia."</div>
+        <div class="depo-autor">
+          <div class="depo-avatar" style="background:linear-gradient(135deg,#10b981,#059669);">R</div>
+          <div>
+            <div class="depo-nome">Ricardo A.</div>
+            <div class="depo-cargo">Professor de Português — Escola Estadual, Sobral/CE</div>
+          </div>
+        </div>
+      </div>
+      <div class="depo-card">
+        <div class="estrelas">★★★★★</div>
+        <div class="depo-texto">"A secretaria pediu relatórios de desempenho das escolas do município e exportei tudo do Dashboard em 5 minutos. Antes levava 2 semanas para consolidar esses dados."</div>
+        <div class="depo-autor">
+          <div class="depo-avatar" style="background:linear-gradient(135deg,#f59e0b,#d97706);">F</div>
+          <div>
+            <div class="depo-nome">Francisco L.</div>
+            <div class="depo-cargo">Coordenador Pedagógico — Secretaria Municipal, CE</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-top:10px;">
+      <div class="stat-card"><div class="stat-num">200+</div><div class="stat-label">Escolas atendidas</div></div>
+      <div class="stat-card"><div class="stat-num">50k+</div><div class="stat-label">Alunos na plataforma</div></div>
+      <div class="stat-card"><div class="stat-num">15</div><div class="stat-label">Municípios parceiros</div></div>
+      <div class="stat-card"><div class="stat-num">4.9⭐</div><div class="stat-label">Avaliação média</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 9 — PLANOS E PREÇOS -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-9">
+  <div class="slide-layout">
+    <div class="slide-header">
+      <div class="slide-icon" style="background: linear-gradient(135deg,#15803d,#16a34a);">💰</div>
+      <div>
+        <div class="slide-titulo">Planos e Investimento</div>
+        <div class="slide-subtitulo">Custo por aluno menor do que uma caixinha de suco — com transformação real</div>
+      </div>
+    </div>
+    <div class="planos-grid">
+      <div class="plano-card" style="background:linear-gradient(135deg,rgba(59,130,246,0.15),rgba(59,130,246,0.05));border:1px solid rgba(59,130,246,0.3);">
+        <div class="plano-nome">🏫 Básico</div>
+        <div class="plano-desc">Ideal para escolas menores</div>
+        <div class="plano-preco">R$297<span>/mês</span></div>
+        <div class="plano-alunos">Até 200 alunos</div>
+        <ul class="plano-items">
+          <li>ItagGame completo</li>
+          <li>Corretor Automático</li>
+          <li>Gerador de Provas</li>
+          <li>Dashboard básico</li>
+          <li>Suporte via WhatsApp</li>
+          <li>15 dias grátis para testar</li>
+        </ul>
+        <button class="plano-btn" style="background:rgba(59,130,246,0.2);color:#60a5fa;border:1px solid rgba(59,130,246,0.4);">Quero Testar Grátis</button>
+      </div>
+      <div class="plano-card destaque" style="background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(16,185,129,0.05));border:2px solid rgba(16,185,129,0.5);">
+        <div class="plano-nome">🏛️ Escolar</div>
+        <div class="plano-desc">Para escolas de médio porte</div>
+        <div class="plano-preco">R$497<span>/mês</span></div>
+        <div class="plano-alunos">Até 500 alunos</div>
+        <ul class="plano-items">
+          <li>Todos os 7 módulos</li>
+          <li>Gerador de Aulas com IA</li>
+          <li>Repositório Digital</li>
+          <li>Dashboard avançado</li>
+          <li>Relatórios para secretaria</li>
+          <li>Suporte prioritário</li>
+          <li>15 dias grátis para testar</li>
+        </ul>
+        <button class="plano-btn" style="background:linear-gradient(90deg,#10b981,#059669);color:white;">Começar Agora ✨</button>
+      </div>
+      <div class="plano-card" style="background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(245,158,11,0.05));border:1px solid rgba(245,158,11,0.3);">
+        <div class="plano-nome">🏙️ Municipal</div>
+        <div class="plano-desc">Para secretarias e redes</div>
+        <div class="plano-preco" style="font-size:28px;">Sob consulta</div>
+        <div class="plano-alunos">Acima de 500 alunos</div>
+        <ul class="plano-items">
+          <li>Plataforma para toda a rede</li>
+          <li>Multi-escola e multi-usuário</li>
+          <li>Dashboard consolidado</li>
+          <li>Treinamento presencial</li>
+          <li>Gerente de conta dedicado</li>
+          <li>SLA e contrato anual</li>
+          <li>Personalização com logo da prefeitura</li>
+        </ul>
+        <button class="plano-btn" style="background:rgba(245,158,11,0.2);color:#fbbf24;border:1px solid rgba(245,158,11,0.4);">Solicitar Proposta</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 10 — COMO FUNCIONA / ONBOARDING -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-10">
+  <div class="slide-layout">
+    <div class="slide-header">
+      <div class="slide-icon" style="background: linear-gradient(135deg,#0e7490,#0891b2);">🚦</div>
+      <div>
+        <div class="slide-titulo">Como Começar em 4 Passos</div>
+        <div class="slide-subtitulo">Da decisão ao primeiro resultado em menos de 48 horas</div>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-num" style="background:linear-gradient(135deg,#1a56db,#3b82f6);">1</div>
+        <div class="timeline-titulo">Demonstração Gratuita</div>
+        <div class="timeline-desc">Agendamos uma demo online de 30 minutos, ao vivo, com sua equipe</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-num" style="background:linear-gradient(135deg,#7c3aed,#8b5cf6);">2</div>
+        <div class="timeline-titulo">Acesso de Teste</div>
+        <div class="timeline-desc">15 dias de acesso completo GRÁTIS — sem cartão de crédito</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-num" style="background:linear-gradient(135deg,#059669,#10b981);">3</div>
+        <div class="timeline-titulo">Capacitação</div>
+        <div class="timeline-desc">Treinamento online de 2h para professores e gestores com certificado</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-num" style="background:linear-gradient(135deg,#d97706,#f59e0b);">4</div>
+        <div class="timeline-titulo">Resultados Reais</div>
+        <div class="timeline-desc">Primeiros resultados visíveis já na primeira semana de uso</div>
+      </div>
+    </div>
+    <div class="cards-grid cols-3" style="margin-top:20px;">
+      <div class="card" style="text-align:center;padding:20px;">
+        <div style="font-size:32px;margin-bottom:8px;">🔒</div>
+        <div class="card-titulo">Sem Contrato Longo</div>
+        <div class="card-desc">Mensalidade sem fidelidade — cancela quando quiser, sem burocracia</div>
+      </div>
+      <div class="card" style="text-align:center;padding:20px;">
+        <div style="font-size:32px;margin-bottom:8px;">📞</div>
+        <div class="card-titulo">Suporte Humano</div>
+        <div class="card-desc">Atendimento via WhatsApp com especialistas educacionais reais</div>
+      </div>
+      <div class="card" style="text-align:center;padding:20px;">
+        <div style="font-size:32px;margin-bottom:8px;">🔄</div>
+        <div class="card-titulo">Atualizações Grátis</div>
+        <div class="card-desc">Novos módulos e melhorias inclusos no plano, sem custo extra</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SLIDE 11 — CTA FINAL -->
+<!-- ============================================================ -->
+<div class="slide" id="slide-final">
+  <div class="final-titulo">Sua escola merece a melhor tecnologia educacional</div>
+  <div class="final-subtitulo">Agende agora sua demonstração gratuita de 30 minutos e veja a plataforma ao vivo com sua equipe.</div>
+  <div class="final-destaque">🆓 15 dias grátis · Sem cartão · Sem compromisso</div>
+  <div class="final-contato">
+    <div class="contato-item">📱 WhatsApp: (88) 9 8841-1890</div>
+    <div class="contato-item">🌐 itatecnologiaeducacional.tech</div>
+    <div class="contato-item">📧 contato@itatecnologia.edu.br</div>
+  </div>
+  <div style="margin-top:10px;opacity:0.5;font-size:13px;">© 2025 ITA Tecnologia Educacional — Itapipoca, Ceará</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- NAVEGAÇÃO -->
+<!-- ============================================================ -->
+<nav class="nav">
+  <button id="btn-prev" onclick="prevSlide()" disabled>← Anterior</button>
+  <div class="dots" id="dots"></div>
+  <span class="counter" id="counter">1 / 11</span>
+  <button id="btn-next" onclick="nextSlide()">Próximo →</button>
+</nav>
+
+<div class="key-hint">← → Navegar<br>F Tela cheia<br>ESC Sair</div>
+
+<script>
+  const totalSlides = 11;
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  const dotsEl = document.getElementById('dots');
+
+  // Criar dots
+  for (let i = 0; i < totalSlides; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    document.querySelectorAll('.dot')[current].classList.remove('active');
+    current = Math.max(0, Math.min(n, totalSlides - 1));
+    slides[current].classList.add('active');
+    document.querySelectorAll('.dot')[current].classList.add('active');
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + totalSlides;
+    document.getElementById('btn-prev').disabled = current === 0;
+    document.getElementById('btn-next').disabled = current === totalSlides - 1;
+  }
+
+  function nextSlide() { goTo(current + 1); }
+  function prevSlide() { goTo(current - 1); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+    if (e.key === 'ArrowLeft') prevSlide();
+    if (e.key === 'f' || e.key === 'F') {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen();
+    }
+  });
+
+  // Touch/swipe
+  let touchX = 0;
+  document.addEventListener('touchstart', e => touchX = e.touches[0].clientX);
+  document.addEventListener('touchend', e => {
+    const diff = touchX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) diff > 0 ? nextSlide() : prevSlide();
+  });
+</script>
+</body>
+</html>
